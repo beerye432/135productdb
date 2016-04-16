@@ -14,11 +14,12 @@ router.get('/createdb', function(req, res){
 
 	pg.connect(process.env.DATABASE_URL, function(err, client, done){
 
-		client.query('CREATE TABLE product IF NOT EXISTS product(\
-	                                            name VARCHAR(40) UNIQUE NOT NULL,\
-	                                            sku VARCHAR(40) PRIMARY KEY,\
-	                                            price FLOAT(2) NOT NULL,\
-	                                            category VARCHAR(40) REFERENCES categories(name));',
+		/*
+		client.query('CREATE TABLE product(\
+                        name VARCHAR(40) UNIQUE NOT NULL,\
+                        sku VARCHAR(40) PRIMARY KEY,\
+                        price FLOAT(2) NOT NULL,\
+                        category VARCHAR(40) REFERENCES categories(name));',
 
 	      	function(err, results){
 
@@ -28,7 +29,12 @@ router.get('/createdb', function(req, res){
 	      		else console.log("success");
 
 	        });
-	});
+		});
+		*/
+
+		client.query("INSERT INTO categories VALUES('Pro Audio', 'Here you will find high quality professional sound equipment');", function(err, results){
+			if(err) console.log(error);
+		});
 	
 	res.render("/");
 });
