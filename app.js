@@ -28,18 +28,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
+
+pg.defaults.ssl = true;
+
 app.get('/db', function (request, response) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-    client.query('SELECT * FROM test_table', function(err, result) {
-      done();
-      if (err)
-       { console.error(err); response.send("Error " + err); }
-      else
-       { 
-        console.log(result.rows);
-        response.render('index', {results: result.rows} ); 
-        }
-    });
+
+    if(err){
+      console.log(err);
+    }
+    else{
+      client.query('SELECT * FROM test_table', function(err, result) {
+        done();
+        if (err)
+         { console.error(err); response.send("Error " + err); }
+        else
+         { 
+          console.log(result.rows);
+          response.render('index', {results: result.rows} ); 
+          }
+      });
+    }
   });
 })
 
