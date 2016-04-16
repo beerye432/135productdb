@@ -11,11 +11,7 @@ var pg = require('pg');
 //router objects
 var routes = require('./routes/index');
 var users = require('./routes/users');
-
-var router = {
-    index: require("./routes/index"),
-    products: require("./routes/products")
-};
+var products = require('./routes/products');
 
 var app = express();
 
@@ -30,34 +26,9 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/createdb', routes);
 app.use('/', routes);
 app.use('/users', users);
-
-app.get('/createDB', router.products.createDB);
-
-
-pg.defaults.ssl = true;
-
-app.get('/db', function (request, response) {
-  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
-
-    if(err){
-      console.log(err);
-    }
-    else{
-      client.query('SELECT * FROM test_table', function(err, result) {
-        done();
-        if (err)
-         { console.error(err); response.send("Error " + err); }
-        else
-         { 
-          console.log(result.rows);
-          response.render('index', {results: result.rows} ); 
-          }
-      });
-    }
-  });
-})
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
@@ -65,8 +36,6 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
-
-
 
 /// error handlers
 
