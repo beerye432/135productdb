@@ -35,6 +35,7 @@ router.get('/createdb', function(req, res){
 		client.query("INSERT INTO categories VALUES('Pro Audio', 'Here you will find high quality professional sound equipment');", function(err, results){
 			if(err) console.log(error);
 		});
+	});
 	
 	res.render("/");
 });
