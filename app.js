@@ -12,6 +12,11 @@ var pg = require('pg');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var router = {
+    index: require("./routes/index"),
+    products: require("./routes/products")
+};
+
 var app = express();
 
 // view engine setup
@@ -27,6 +32,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+
+app.get('/createDB', router.products.createDB);
 
 
 pg.defaults.ssl = true;
